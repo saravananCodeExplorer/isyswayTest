@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+          
             min-height: 100vh;
             display: flex;
             justify-content: center;

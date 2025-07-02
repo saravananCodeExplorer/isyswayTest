@@ -13,7 +13,7 @@ $table = $_SESSION['test_table'] ?? '';
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AWS Test</title>
+  <title><?php echo htmlspecialchars(strtoupper($table)); ?> Test</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -33,11 +33,11 @@ $table = $_SESSION['test_table'] ?? '';
           <?php for ($i = 1; $i <= 4; $i++): ?>
             <?php $opt = 'option' . $i; ?>
             <div class="form-check">
-              <input type="radio"
-                     class="form-check-input"
-                     name="answers[<?php echo $q['id']; ?>]"
+              <input type="checkbox"
+                     class="form-check-input answer-checkbox"
+                     name="answers[<?php echo $q['id']; ?>][]"
                      value="<?php echo htmlspecialchars($q[$opt]); ?>"
-                     required>
+                     data-question="<?php echo $q['id']; ?>">
               <label class="form-check-label">
                 <?php echo htmlspecialchars($q[$opt]); ?>
               </label>
@@ -49,5 +49,24 @@ $table = $_SESSION['test_table'] ?? '';
     <button type="submit" class="btn btn-success">Submit Test</button>
   </form>
 </div>
+
+<script>
+  document.querySelectorAll('.answer-checkbox').forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      let questionId = this.dataset.question;
+      if (this.checked) {
+        // Uncheck other checkboxes for this question
+        document.querySelectorAll(
+          '.answer-checkbox[data-question="' + questionId + '"]'
+        ).forEach(function(box) {
+          if (box !== checkbox) {
+            box.checked = false;
+          }
+        });
+      }
+    });
+  });
+</script>
+
 </body>
 </html>

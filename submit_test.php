@@ -11,9 +11,16 @@ $results = [];
 foreach ($questions as $q) {
     $id = $q['id'];
     $correct = $q['answer'];
-    $user = $user_answers[$id] ?? null;
+    $user = $user_answers[$id] ?? [];
 
-    $isCorrect = ($user === $correct);
+    // Ensure $user is always an array
+    if (!is_array($user)) {
+        $user = [$user];
+    }
+
+    // Mark correct if user's answer array contains the correct answer
+    $isCorrect = in_array($correct, $user);
+
     if ($isCorrect) {
         $score++;
     }
@@ -26,7 +33,6 @@ foreach ($questions as $q) {
     ];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +55,13 @@ foreach ($questions as $q) {
       <div class="card-body">
         <p>Your Answer:
           <strong class="<?php echo $r['isCorrect'] ? 'text-success' : 'text-danger'; ?>">
-            <?php echo htmlspecialchars($r['user'] ?? 'No Answer'); ?>
+            <?php
+              if (!empty($r['user'])) {
+                  echo htmlspecialchars(implode(', ', $r['user']));
+              } else {
+                  echo 'No Answer';
+              }
+            ?>
           </strong>
         </p>
         <?php if (!$r['isCorrect']): ?>

@@ -89,6 +89,13 @@ $questions = mysqli_query($con, "SELECT * FROM $table ORDER BY id DESC");
     <i class="bi bi-plus-circle"></i> <?php echo htmlspecialchars(strtoupper($table)); ?> - Manage Questions
   </h2>
 
+  <!-- ✅ NEW BUTTON: Convert to Test -->
+  <div class="mb-4">
+    <a href="start_test.php?table=<?php echo urlencode($table); ?>" class="btn btn-warning">
+      <i class="bi bi-play-circle"></i> Convert to Test
+    </a>
+  </div>
+
   <!-- Add / Edit Form -->
   <div class="card mb-4">
     <div class="card-header">
